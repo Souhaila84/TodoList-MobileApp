@@ -1,0 +1,9 @@
+## uml: class diagram
+
+
+```plantuml 
+@startuml
+    actor User
+    User -> App: Add task()
+@enduml
+
