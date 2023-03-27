@@ -15,6 +15,7 @@ function App() {
   const[newTask, setNewTask] = useState('');
   const[updateData, setUpdateData] = useState('');
 
+
   const addTask = () => {
     if (newTask){
       console.log(newTask);
@@ -25,15 +26,6 @@ function App() {
   }
 }
   
-
-  const afficherListe = () => {
-    return Todo.map(element => (
-      <div key={element.id}>
-        <p>{element.title}</p>
-      </div>
-    ));
-  };
-
   const cancelUpdate = () => {
     setUpdateData('');
   }
@@ -44,6 +36,7 @@ function App() {
     setTodo(newTasks);
   }
 
+  
   function CheckBoxWithText(props) {
     const [isChecked, setIsChecked] = useState(false);
   
@@ -70,20 +63,17 @@ function App() {
   setUpdateData(newEntry);
 }
 
-  const updateTask = () => {
-    let filterRecords = [...Todo].filter(task => task.id !== updateData && updateTask);
-    let updatedObject = [...filterRecords, updateData]
-    setTodo(updatedObject);    
-    setUpdateData('');
-    
+const updateTask = () => {
+  let filterRecords = Todo.filter(task => task.id !== updateData.id);
+  let updatedObject = [...filterRecords, updateData]
+  setTodo(updatedObject);    
+  setUpdateData('');
 }
 
-const editTask = () => {
-  let numERO = Todo.length + 1;
-  setUpdateData(id);
-  setNewTask(task[id].text);
+const editTask = (id, task) => {
+  setUpdateData(task);
+  setNewTask(task.title);
 };
-
 
   return (
     <div className="App" >
@@ -92,8 +82,8 @@ const editTask = () => {
        <br/>
       <AddTaskForm setNewTask={setNewTask} newTask={newTask} addTask={addTask}></AddTaskForm>
       {Todo && Todo.length ? '' : 'No Tasks....' }
-      <ToDo Todo={Todo} deleteTask={deleteTask} updateTask={updateTask} CheckBoxWithText={CheckBoxWithText}></ToDo>
-      <UpdateForm></UpdateForm>
+      <ToDo Todo={Todo} deleteTask={deleteTask} updateTask={<UpdateForm updateData={updateData} changeTask={changeTask} cancelUpdate={cancelUpdate} updateTask={updateTask} />
+} CheckBoxWithText={CheckBoxWithText}></ToDo>
     </div>
   )
 }

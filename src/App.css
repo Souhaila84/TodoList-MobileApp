@@ -7,7 +7,7 @@
 }
 
 .checkbox{
-  border: 2px solid black;
+  border: 2px solid rgb(221, 68, 68);
   border-radius: 10px;
   background-color: var(--background-color-dark);
   width: 16px;
