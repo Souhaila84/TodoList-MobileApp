@@ -1,81 +1,50 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faPen, faTrashAlt, faTimes } from '@fortawesome/free-solid-svg-icons'
+import React from 'react';
 
-const ToDo = ({Todo, deleteTask, CheckBoxWithText}) => {
-  const [editTaskId, setEditTaskId] = useState(null);
-  const [editTaskValue, setEditTaskValue] = useState('');
-  
-  const handleEditTaskChange = (e) => {
-    setEditTaskValue(e.target.value);
-  }
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-  const handleEditTaskCancel = () => {
-    setEditTaskId(null);
-    setEditTaskValue('');
-  }
-
-  const handleEditTaskSave = (id) => {
-    const updatedTask = Todo.map(task => {
-      if (task.id === id) {
-        return {
-          ...task,
-          title: editTaskValue
-        };
-      }
-      return task;
-    });
-
-    updateTask(updatedTask);
-    setEditTaskId(null);
-    setEditTaskValue('');
-
-  }
-
-  const updateTask = (updatedTask) => {
-    setTodo(updatedTask);
-  }
-
-  const editTask = (id, title) => {
-    setEditTaskId(id);
-    setEditTaskValue(title);
-  }
-
+const ToDo = ({ Todo, editTask, deleteTask, CheckBoxWithText }) => {
   return (
     <>
-      {Todo && Todo.map((task) => {
-        return (
-          <React.Fragment key={task.id}>
-            <div className='col taskBg'>
-              <div className={task.status ? 'done' : ''}>
-                {editTaskId === task.id ? (
-                  <>
-                    <input type="text" value={editTaskValue} onChange={handleEditTaskChange} />
-                    <button onClick={() => handleEditTaskSave(task.id)}>Save</button>
-                    <button onClick={() => handleEditTaskCancel()}>Cancel</button>
-                  </>
-                ) : (
-                  <>
-                    <span className="taskNumber"><CheckBoxWithText text={task.title} /></span>
-                    <span> </span>
-                    {task.status ? null : (
-                     <span title="Edit" onClick={() => editTask(task.id, task.title)}>
-                     <FontAwesomeIcon icon={faPen}/>
-                   </span>
-                    )}
-                    <span title="Delete" onClick={() => deleteTask(task.id)}>
-                      <FontAwesomeIcon icon={faTrashAlt} />
-                    </span>
-                  </>
-                )}
-              </div>
-              
-            </div>
-          </React.Fragment>
-        )
-      })}
+      {Todo &&
+        Todo.sort((a, b) => a.id - b.id)
+          .map((task, index) => {
+            return (
+              <React.Fragment key={task.id}>
+                <div className="col taskBg">
+                  <div className={task.status ? 'done' : ''}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <span className="taskNumber">{task.id}. </span>
+                      <span>
+                        <CheckBoxWithText text={task.title} />
+                      </span>
+                    </div>
+                    <div className="editDeleteIcons">
+                      {!task.status && (
+                        <span
+                          title="Modifier"
+                          onClick={() => {
+                            editTask(task.id);
+                          }}
+                          style={{ marginRight: 10 }}
+                        >
+                          <FontAwesomeIcon icon={faPen} />
+                        </span>
+                      )}
+                      <span
+                        title="Supprimer"
+                        onClick={() => deleteTask(task.id)}
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </React.Fragment>
+            );
+          })}
     </>
-  )
-}
+  );
+};
 
 export default ToDo;
