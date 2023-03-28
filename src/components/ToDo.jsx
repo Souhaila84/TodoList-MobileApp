@@ -26,9 +26,10 @@ const ToDo = ({Todo, deleteTask, CheckBoxWithText}) => {
       return task;
     });
 
+    updateTask(updatedTask);
     setEditTaskId(null);
     setEditTaskValue('');
-    updateTask(updatedTask);
+
   }
 
   const updateTask = (updatedTask) => {
@@ -55,10 +56,10 @@ const ToDo = ({Todo, deleteTask, CheckBoxWithText}) => {
                   </>
                 ) : (
                   <>
-                    <span className="taskNumber"><CheckBoxWithText text={task.title}/></span>
+                    <span className="taskNumber"><CheckBoxWithText text={task.title} /></span>
                     <span> </span>
                     {task.status ? null : (
-                     <span title="Edit" onClick={() => editTask(task.id, task)}>
+                     <span title="Edit" onClick={() => editTask(task.id, task.title)}>
                      <FontAwesomeIcon icon={faPen}/>
                    </span>
                     )}
