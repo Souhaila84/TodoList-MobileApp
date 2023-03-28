@@ -1,12 +1,21 @@
 :root {
+  --primary-color: #535bf2;
+  --secondary-color: #646cff;
+  --background-color: #f9f9f9;
+  --text-color: #242424;
+  --dark-text-color: #213547;
+  --light-text-color: rgba(255, 255, 255, 0.87);
+  --background-color-dark: #888;
+  --border-color: #646cff;
+}
+
+/* Typography */
+
+:root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  font-size: 16px;
+  line-height: 1.5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,16 +23,18 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+h1 {
+  font-size: 3.2rem;
+  line-height: 1.1;
+  margin: 0;
+  padding: 0;
 }
 
+/* Colors */
+
 body {
+  color: var(--text-color);
+  background-color: var(--background-color);
   margin: 0;
   display: flex;
   place-items: center;
@@ -31,10 +42,17 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a {
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.25s;
 }
+a:hover {
+  color: var(--secondary-color);
+}
+
+/* Buttons */
 
 button {
   border-radius: 8px;
@@ -43,27 +61,258 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--background-color-dark);
+  color: var(--light-text-color);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--border-color);
+  background-color: var(--primary-color);
+  color: var(--light-text-color);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
+  border-color: var(--border-color);
+  box-shadow: 0 0 0 3px rgba(101, 91, 242, 0.3);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Logo */
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em var(--secondary-color, #646cffaa));
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em var(--primary-color, #535bf2aa));
+}
+
+/* Card */
+
+.card {
+  padding: 2em;
+  background-color: var(--light-text-color);
+  color: var(--text-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form */
+
+input[type="text"]::placeholder,
+input[type="checkbox"]::placeholder {
+color: var(--dark-text-color);
+}
+
+label {
+display: flex;
+align-items: center;
+}
+
+.checkbox {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+position: relative;
+width: 1.2em;
+height: 1.2em;
+margin-right: 0.5em;
+border-radius: 4px;
+border: 2px solid var(--border-color);
+background-color: var(--background-color-dark);
+}
+.checkbox input[type="checkbox"] {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+}
+.checkbox input[type="checkbox"]:checked + .checkbox-icon {
+transform: rotate(45deg);
+width: 0.6em;
+height: 1.2em;
+border-width: 0 0.2em 0.2em 0;
+border-color: var(--primary-color);
+}
+.checkbox .checkbox-icon {
+position: relative;
+width: 0.6em;
+height: 0.6em;
+border-radius: 2px;
+border: 2px solid var(--border-color);
+transform: rotate(0deg);
+transition: all 0.25s;
+}
+
+.btn-success {
+background-color: var(--primary-color);
+color: var(--light-text-color);
+border-color: var(--primary-color);
+}
+.btn-success:hover {
+background-color: var(--secondary-color);
+border-color: var(--secondary-color);
+}
+
+.btn-primary {
+background-color: var(--background-color);
+color: var(--primary-color);
+border-color: var(--primary-color);
+}
+.btn-primary:hover {
+background-color: var(--primary-color);
+color: var(--light-text-color);
+border-color: var(--primary-color);
+}
+
+.btn-danger {
+background-color: #dc3545;
+color: var(--light-text-color);
+border-color: #dc3545;
+}
+.btn-danger:hover {
+background-color: #c82333;
+border-color: #bd2130;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.taskBg {
+  background-color: #d3d3d3;
+  border-radius: 8px;
+  margin: 0.5em 0;
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.taskBg:hover {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.done {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.taskNumber {
+  margin-right: 1em;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #646cff;
+  display: inline-block;
+  width: 1.5em;
+  text-align: center;
+}
+
+.editDeleteIcons {
+  display: flex;
+  margin-left: auto;
+}
+
+.editDeleteIcons span {
+  margin-left: 1em;
+  color: #fff;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.editDeleteIcons span:hover {
+  transform: scale(1.2);
+}
+
+
+
+
+.addTaskContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.addTaskContainer input {
+  border: none;
+  background-color: #eee;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  margin-right: 1em;
+  border-radius: 8px;
+  width: 70%;
+  max-width: 600px;
+}
+
+.addTaskContainer button {
+  margin-left: auto;
+  background-color: #646cff;
+  color: #fff;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.addTaskContainer button:hover {
+  background-color: #535bf2;
+}
+
+.updateCancelContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.updateCancelContainer input {
+  border: none;
+  background-color: #eee;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  margin-right: 1em;
+  border-radius: 8px;
+  width: 70%;
+  max-width: 600px;
+}
+
+.updateCancelContainer button {
+  margin-left: auto;
+  background-color: #646cff;
+  color: #fff;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.updateCancelContainer button:hover {
+  background-color: #535bf2;
+}
+
+@media (max-width: 768px) {
+  .taskBg {
+    width: 100%;
   }
-  a:hover {
-    color: #747bff;
+
+  .addTaskContainer input {
+    width: 60%;
   }
-  button {
-    background-color: #f9f9f9;
+
+  .addTaskContainer button {
+    width: 30%;
   }
 }

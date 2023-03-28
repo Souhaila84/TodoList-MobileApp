@@ -5,7 +5,6 @@ import { Calendar } from 'react-calendar'
 import ReactImageGallery from 'react-image-gallery'
 import AddTaskForm from './components/AddTaskForm'
 import ToDo from './components/ToDo'
-import UpdateForm from './components/UpdateForm'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -14,7 +13,7 @@ function App() {
   
   const[newTask, setNewTask] = useState('');
   const[updateData, setUpdateData] = useState('');
-
+  const[showUpdateButton, setShowUpdateButton] = useState(false);
 
   const addTask = () => {
     if (newTask){
@@ -26,17 +25,29 @@ function App() {
   }
 }
   
+
+  const afficherListe = () => {
+    return Todo.map(element => (
+      <div key={element.id}>
+        <p>{element.title}</p>
+      </div>
+    ));
+  };
+
   const cancelUpdate = () => {
-    setUpdateData('');
-  }
+    setNewTask('');
+    setUpdateData(null);
+    setShowUpdateButton(false);
+  };
 
 
   const deleteTask = (id) => {
-    let newTasks = Todo.filter (task => task.id !==id);
+    let newTasks = Todo.filter((task) => task.id !== id);
+    newTasks = newTasks.map((task, index) => {
+      return { ...task, id: index + 1 };
+    });
     setTodo(newTasks);
-  }
-
-  
+  };
   function CheckBoxWithText(props) {
     const [isChecked, setIsChecked] = useState(false);
   
@@ -64,26 +75,44 @@ function App() {
 }
 
 const updateTask = () => {
-  let filterRecords = Todo.filter(task => task.id !== updateData.id);
-  let updatedObject = [...filterRecords, updateData]
-  setTodo(updatedObject);    
-  setUpdateData('');
+  let filterRecords = [...Todo].filter(task => task.id !== updateData.id); 
+  let updatedObject = [...filterRecords, updateData];
+  setTodo(updatedObject);
+  setUpdateData(null);
+  setShowUpdateButton(false);
 }
 
-const editTask = (id, task) => {
-  setUpdateData(task);
-  setNewTask(task.title);
-};
+
+  const editTask = (id) => {
+    const taskToUpdate = Todo.find(task => task.id === id);
+    setUpdateData(taskToUpdate);
+    setNewTask(taskToUpdate.title);
+    setShowUpdateButton(true);
+  };
 
   return (
     <div className="App" >
        <h1>To do List</h1>
        <br/>
        <br/>
-      <AddTaskForm setNewTask={setNewTask} newTask={newTask} addTask={addTask}></AddTaskForm>
-      {Todo && Todo.length ? '' : 'No Tasks....' }
-      <ToDo Todo={Todo} deleteTask={deleteTask} updateTask={<UpdateForm updateData={updateData} changeTask={changeTask} cancelUpdate={cancelUpdate} updateTask={updateTask} />
-} CheckBoxWithText={CheckBoxWithText}></ToDo>
+       <AddTaskForm
+        setNewTask={setNewTask}
+        newTask={newTask}
+        addTask={addTask}
+        showUpdateButton={showUpdateButton}
+        updateTask={updateTask}
+        updateData={updateData}
+        setUpdateData={setUpdateData}
+        cancelUpdate={cancelUpdate}
+      ></AddTaskForm>
+      {Todo && Todo.length ? '' : 'No Tasks....'}
+      <ToDo
+        Todo={Todo}
+        deleteTask={deleteTask}
+        CheckBoxWithText={CheckBoxWithText}
+        editTask={editTask}
+      ></ToDo>
+
     </div>
   )
 }
